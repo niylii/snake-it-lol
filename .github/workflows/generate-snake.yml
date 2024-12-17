@@ -1,0 +1,28 @@
+name: Generate Snake Game
+
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+
+jobs:
+  generate-snake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Generate Snake Image
+        uses: Platane/snk@v3
+        with:
+          niylii: ${{ github.repository_owner }}
+          palette: github-dark
+          color_snake: '#53495'
+          color_dots: '#ae80f6,#532d8f,#7e68a2,#bebcc0,#a15df6'  # Customize dot colors
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "you@example.com"
+          git config --local user.name "Your name"
+          git add dist/*.svg dist/*.gif
+          git commit -m "Update snake image"
+          git push
